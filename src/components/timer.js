@@ -27,6 +27,7 @@ const Timer = () => {
   const [seconds, setSeconds] = useState(0)
   const [countdown, setCountdown] = useState(0)
   const [delay, setDelay] = useState(null)
+  const [isStarted, setIsStarted] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
 
   useInterval(() => {
@@ -45,12 +46,14 @@ const Timer = () => {
 
   const timerStart = () => {
     if (countdown > 0) {
+      setIsStarted(true)
       setStartTime(Date.now())
       setDelay(1000)
     }
   }
 
   const timerStop = () => {
+    setIsStarted(false)
     setCountdown(0)
     setMinutes(0)
     setSeconds(0)
@@ -93,13 +96,17 @@ const Timer = () => {
           />
         </div>
         <div className="timer__action">
-          <button className="timer__action-cancel" onClick={timerStop}>
-            Отмена
-          </button>
-          <button className="timer__action-start" onClick={timerStart}>
-            Старт
-          </button>
-          {countdown > 0 && (
+          {!isStarted && (
+            <button className="timer__action-start" onClick={timerStart}>
+              Старт
+            </button>
+          )}
+          {isStarted && (
+            <button className="timer__action-cancel" onClick={timerStop}>
+              Отмена
+            </button>
+          )}
+          {isStarted && (
             <button className="timer__action-pause" onClick={timerTooglePause}>
               {delay !== null ? 'Пауза' : 'Продолжить'}
             </button>
