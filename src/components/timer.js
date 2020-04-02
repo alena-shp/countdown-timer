@@ -33,23 +33,23 @@ const Timer = () => {
 
   useEffect(() => {
     if (seconds < 1) {
-      stopTimer()
+      timerStop()
     }
   }, [seconds])
 
-  const startTimer = () => {
+  const timerStart = () => {
     if (seconds > 0) {
       setStartTime(Date.now())
       setDelay(1000)
     }
   }
 
-  const stopTimer = () => {
+  const timerStop = () => {
     setSeconds(0)
     setDelay(null)
   }
 
-  const tooglePauseTimer = () => {
+  const timerTooglePause = () => {
     setDelay(delay => {
       return delay === null ? 1000 : null
     })
@@ -75,14 +75,14 @@ const Timer = () => {
           />
         </div>
         <div className="timer__action">
-          <button className="timer__action-cancel" onClick={stopTimer}>
+          <button className="timer__action-cancel" onClick={timerStop}>
             Отмена
           </button>
-          <button className="timer__action-start" onClick={startTimer}>
+          <button className="timer__action-start" onClick={timerStart}>
             Старт
           </button>
           {seconds > 0 && delay !== null && (
-            <button className="timer__action-pause" onClick={tooglePauseTimer}>
+            <button className="timer__action-pause" onClick={timerTooglePause}>
               {delay !== null ? 'Пауза' : 'Продолжить'}
             </button>
           )}
