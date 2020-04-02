@@ -1,31 +1,59 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './timer.scss'
+
+// https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+function useInterval(callback, delay) {
+  const savedCallback = useRef()
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay)
+      return () => clearInterval(id)
+    }
+  }, [delay])
+}
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0)
+  const [delay, setDelay] = useState(null)
   const [startTime, setStartTime] = useState(undefined)
-  const [intervalID, setIntervalID] = useState(undefined)
+
+  useInterval(() => {
+    setSeconds(seconds - 1)
+  }, delay)
+
+  useEffect(() => {
+    if (seconds < 1) {
+      stopTimer()
+    }
+  }, [seconds])
 
   const startTimer = () => {
-    setStartTime(Date.now())
-    setIntervalID(
-      setInterval(() => {
-        console.log(
-          'startTime, Date.now() - startTime',
-          startTime,
-          Date.now() - startTime
-        )
-        // setSeconds(Date.now() - startTime)
-      }, 1000)
-    )
+    if (seconds > 0) {
+      setStartTime(Date.now())
+      setDelay(1000)
+    }
   }
 
   const stopTimer = () => {
-    clearInterval(intervalID)
     setSeconds(0)
+    setDelay(null)
   }
 
-  const pauseTimer = () => {}
+  const tooglePauseTimer = () => {
+    setDelay(delay => {
+      return delay === null ? 1000 : null
+    })
+  }
 
   return (
     <div className="timer">
@@ -53,9 +81,11 @@ const Timer = () => {
           <button className="timer__action-start" onClick={startTimer}>
             Старт
           </button>
-          <button className="timer__action-pause" onClick={pauseTimer}>
-            Пауза
-          </button>
+          {seconds > 0 && delay !== null && (
+            <button className="timer__action-pause" onClick={tooglePauseTimer}>
+              {delay !== null ? 'Пауза' : 'Продолжить'}
+            </button>
+          )}
         </div>
         <div className="progressbar">[progressbar]</div>
         <div className="timer__statistics">
