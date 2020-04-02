@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as moment from 'moment'
-import './timer.scss'
+import ProgressBar from './ProgressBar'
+import './Timer.scss'
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 function useInterval(callback, delay) {
@@ -27,6 +28,7 @@ const Timer = () => {
   const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
   const [countdown, setCountdown] = useState(0)
+  const [initialCountdown, setInitialCountdown] = useState(0)
   const [delay, setDelay] = useState(null)
   const [isStarted, setIsStarted] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
@@ -47,6 +49,7 @@ const Timer = () => {
 
   const timerStart = () => {
     if (countdown > 0) {
+      setInitialCountdown(countdown)
       setIsStarted(true)
       setStartTime(Date.now())
       setDelay(1000)
@@ -71,30 +74,36 @@ const Timer = () => {
     <div className="timer">
       <h1 className="timer__title">Tаймер</h1>
       <div className="timer__main">
-        <div className="timer__count">
-          <h3>{countdown}</h3>
-          <h1>
-            {Math.trunc(countdown / 60)}:{countdown % 60}
-          </h1>
-        </div>
-        <div className="timer__input">
-          <input
-            type="text"
-            placeholder="Минуты"
-            value={minutes}
-            onChange={e => {
-              setMinutes(parseInt(e.target.value) || 0)
-            }}
+        {isStarted && (
+          <div className="timer__count">
+            <h1>
+              {Math.trunc(countdown / 60)}:{countdown % 60}
+            </h1>
+          </div>
+        )}
+        {isStarted && (
+          <ProgressBar
+            progress={(initialCountdown - countdown + 1) / initialCountdown}
           />
-          <input
-            type="text"
-            placeholder="Секунды"
-            value={seconds}
-            onChange={e => {
-              setSeconds(parseInt(e.target.value) || 0)
-            }}
-          />
-        </div>
+        )}
+        {!isStarted && (
+          <div className="timer__input">
+            <input
+              type="text"
+              value={minutes}
+              onChange={e => {
+                setMinutes(parseInt(e.target.value) || 0)
+              }}
+            />
+            <input
+              type="text"
+              value={seconds}
+              onChange={e => {
+                setSeconds(parseInt(e.target.value) || 0)
+              }}
+            />
+          </div>
+        )}
         <div className="timer__action">
           {!isStarted && (
             <button className="timer__action-start" onClick={timerStart}>
@@ -112,21 +121,18 @@ const Timer = () => {
             </button>
           )}
         </div>
-        <div className="progressbar">[progressbar]</div>
         <div className="timer__statistics">
           {isStarted && (
             <div className="timer__statistics-start">
               отсчет начался в&nbsp;
-              <span>{startTime && moment(startTime).format('HH:mm:ss')}</span>
+              {startTime && moment(startTime).format('HH:mm:ss')}
             </div>
           )}
           {isStarted && delay !== null && (
             <div className="timer__statistics-end">
               отсчет заканчится в&nbsp;
-              <span>
-                {startTime &&
-                  moment(Date.now() + countdown * 1000).format('HH:mm:ss')}
-              </span>
+              {startTime &&
+                moment(Date.now() + countdown * 1000).format('HH:mm:ss')}
             </div>
           )}
         </div>
