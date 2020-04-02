@@ -1,0 +1,98 @@
+.timer {
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  &__title {
+    margin: 0;
+    font-size: 40px;
+    color: black;
+  }
+  &__main {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  &__count {
+    text-align: center;
+    margin: 30px;
+    h1 {
+      margin: 0;
+      font-size: 100px;
+      color: #1a3369;
+    }
+  }
+  &__startTime {
+  }
+  &__input {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    input {
+      padding: 12px;
+      font-size: 20px;
+      border-radius: 4px;
+      border: 1px solid #919191;
+      width: 20%;
+    }
+    input:last-child {
+      margin-left: 20px;
+    }
+  }
+
+  &__action {
+    margin: 40px 0;
+    &-cancel,
+    &-start,
+    &-pause {
+      border-radius: 4px;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 26px;
+      text-transform: uppercase;
+      transition: 0.2s;
+    }
+
+    &-cancel {
+      margin-right: 14px;
+      background-color: white;
+      border: 2px solid #1a3369;
+      color: #1a3369;
+
+      &:hover {
+        color: white;
+        background-color: #1a3369;
+        border: 2px solid #1a3369;
+      }
+    }
+    &-start {
+      margin-right: 14px;
+      color: white;
+      background-color: #922213;
+      border: 2px solid #922213;
+
+      &:hover {
+        background-color: white;
+        border: 2px solid #922213;
+        color: #922213;
+      }
+    }
+    &-pause {
+      color: white;
+      background-color: #1a3369;
+      border: 2px solid #1a3369;
+
+      &:hover {
+        background-color: white;
+        border: 2px solid #1a3369;
+        color: #1a3369;
+      }
+    }
+  }
+  &__statistics {
+  }
+
+  &__table {
+  }
+}
