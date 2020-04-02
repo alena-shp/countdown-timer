@@ -23,28 +23,36 @@ function useInterval(callback, delay) {
 }
 
 const Timer = () => {
+  const [minutes, setMinutes] = useState(0)
   const [seconds, setSeconds] = useState(0)
+  const [countdown, setCountdown] = useState(0)
   const [delay, setDelay] = useState(null)
   const [startTime, setStartTime] = useState(undefined)
 
   useInterval(() => {
-    setSeconds(seconds - 1)
+    setCountdown(countdown - 1)
   }, delay)
 
   useEffect(() => {
-    if (seconds < 1) {
+    setCountdown(minutes * 60 + seconds)
+  }, [minutes, seconds])
+
+  useEffect(() => {
+    if (countdown < 1) {
       timerStop()
     }
-  }, [seconds])
+  }, [countdown])
 
   const timerStart = () => {
-    if (seconds > 0) {
+    if (countdown > 0) {
       setStartTime(Date.now())
       setDelay(1000)
     }
   }
 
   const timerStop = () => {
+    setCountdown(0)
+    setMinutes(0)
     setSeconds(0)
     setDelay(null)
   }
@@ -60,17 +68,27 @@ const Timer = () => {
       <h1 className="timer__title">Tаймер</h1>
       <div className="timer__main">
         <div className="timer__count">
-          <h1>00:{seconds}</h1>
+          <h3>{countdown}</h3>
+          <h1>
+            {Math.trunc(countdown / 60)}:{countdown % 60}
+          </h1>
         </div>
         <div className="timer__startTime">{startTime}</div>
         <div className="timer__input">
-          <input type="text" placeholder="Минуты" />
+          <input
+            type="text"
+            placeholder="Минуты"
+            value={minutes}
+            onChange={e => {
+              setMinutes(parseInt(e.target.value) || 0)
+            }}
+          />
           <input
             type="text"
             placeholder="Секунды"
             value={seconds}
             onChange={e => {
-              setSeconds(e.target.value)
+              setSeconds(parseInt(e.target.value) || 0)
             }}
           />
         </div>
@@ -81,7 +99,7 @@ const Timer = () => {
           <button className="timer__action-start" onClick={timerStart}>
             Старт
           </button>
-          {seconds > 0 && delay !== null && (
+          {countdown > 0 && (
             <button className="timer__action-pause" onClick={timerTooglePause}>
               {delay !== null ? 'Пауза' : 'Продолжить'}
             </button>
