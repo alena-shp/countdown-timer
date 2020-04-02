@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import * as moment from 'moment'
 import './timer.scss'
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
@@ -76,7 +77,6 @@ const Timer = () => {
             {Math.trunc(countdown / 60)}:{countdown % 60}
           </h1>
         </div>
-        <div className="timer__startTime">{startTime}</div>
         <div className="timer__input">
           <input
             type="text"
@@ -114,12 +114,21 @@ const Timer = () => {
         </div>
         <div className="progressbar">[progressbar]</div>
         <div className="timer__statistics">
-          <div className="timer__statistics-start">
-            отсчет начался <span>00 : 10</span> назад
-          </div>
-          <div className="timer__statistics-end">
-            отсчет заканчится через <span>09 : 50</span>
-          </div>
+          {isStarted && (
+            <div className="timer__statistics-start">
+              отсчет начался в&nbsp;
+              <span>{startTime && moment(startTime).format('HH:mm:ss')}</span>
+            </div>
+          )}
+          {isStarted && delay !== null && (
+            <div className="timer__statistics-end">
+              отсчет заканчится в&nbsp;
+              <span>
+                {startTime &&
+                  moment(Date.now() + countdown * 1000).format('HH:mm:ss')}
+              </span>
+            </div>
+          )}
         </div>
         <table className="timer__table">
           <thead>
