@@ -32,7 +32,7 @@ const Timer = () => {
   const [delay, setDelay] = useState(null)
   const [isStarted, setIsStarted] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
-  const [stats, setStats] = useState([])
+  const [history, setHistory] = useState([])
 
   useInterval(() => {
     setCountdown(countdown - 1)
@@ -43,10 +43,10 @@ const Timer = () => {
   }, [minutes, seconds])
 
   useEffect(() => {
-    if (countdown < 1) {
+    if (isStarted && countdown < 1) {
       timerStop()
     }
-  }, [countdown])
+  }, [isStarted, countdown])
 
   const timerStart = () => {
     if (countdown > 0) {
@@ -58,8 +58,8 @@ const Timer = () => {
   }
 
   const timerStop = () => {
-    setStats(stats => [
-      ...stats,
+    setHistory(history => [
+      ...history,
       {
         startTime: moment(startTime).format('HH:mm:ss'),
         finishTime: moment(Date.now()).format('HH:mm:ss'),
@@ -68,7 +68,7 @@ const Timer = () => {
       }
     ])
     setIsStarted(false)
-    // setCountdown(0)
+    setCountdown(0)
     setMinutes(0)
     setSeconds(0)
     setDelay(null)
@@ -158,7 +158,7 @@ const Timer = () => {
             </tr>
           </thead>
           <tbody>
-            {stats.map(({ startTime, finishTime, initialTimer, factualTimer }, key) => (
+            {history.map(({ startTime, finishTime, initialTimer, factualTimer }, key) => (
               <tr key={key}>
                 <td>{startTime}</td>
                 <td>{finishTime}</td>
