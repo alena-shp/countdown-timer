@@ -6,20 +6,20 @@
   &__title {
     margin: 0;
     font-size: 40px;
-    color: black;
+    color: #363636;
   }
   &__main {
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-top: 40px;
   }
   &__count {
     text-align: center;
-    margin: 30px;
     h1 {
       margin: 0;
       font-size: 100px;
-      color: #1a3369;
+      color: #21868d;
     }
   }
   &__startTime {
@@ -28,12 +28,22 @@
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+
+    &-min,
+    &-sec {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     input {
       padding: 12px;
-      font-size: 20px;
+      font-size: 100px;
+      color: #363636;
       border-radius: 4px;
       border: 1px solid #919191;
-      width: 20%;
+      width: 180px;
     }
     input:last-child {
       margin-left: 20px;
@@ -57,36 +67,36 @@
     &-cancel {
       margin-right: 14px;
       background-color: white;
-      border: 2px solid #1a3369;
-      color: #1a3369;
+      border: 2px solid #21868d;
+      color: #21868d;
 
       &:hover {
         color: white;
-        background-color: #1a3369;
-        border: 2px solid #1a3369;
+        background-color: #21868d;
+        border: 2px solid #21868d;
       }
     }
     &-start {
       margin-right: 14px;
       color: white;
-      background-color: #922213;
-      border: 2px solid #922213;
+      background-color: #f37954;
+      border: 2px solid #f37954;
 
       &:hover {
         background-color: white;
-        border: 2px solid #922213;
-        color: #922213;
+        border: 2px solid #f37954;
+        color: #f37954;
       }
     }
     &-pause {
       color: white;
-      background-color: #1a3369;
-      border: 2px solid #1a3369;
+      background-color: #21868d;
+      border: 2px solid #21868d;
 
       &:hover {
         background-color: white;
-        border: 2px solid #1a3369;
-        color: #1a3369;
+        border: 2px solid #21868d;
+        color: #21868d;
       }
     }
   }
@@ -94,5 +104,29 @@
   }
 
   &__table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+
+    thead,
+    tbody {
+      width: 100%;
+    }
+    thead {
+      border-top: 1px solid #21868d;
+      border-bottom: 1px solid #21868d;
+    }
+    tr {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    th,
+    td {
+      width: 20%;
+      padding: 10px 20px;
+      text-align: center;
+    }
   }
 }

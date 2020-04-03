@@ -32,6 +32,7 @@ const Timer = () => {
   const [delay, setDelay] = useState(null)
   const [isStarted, setIsStarted] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
+  const [stats, setStats] = useState([])
 
   useInterval(() => {
     setCountdown(countdown - 1)
@@ -57,8 +58,17 @@ const Timer = () => {
   }
 
   const timerStop = () => {
+    setStats(stats => [
+      ...stats,
+      {
+        startTime: moment(startTime).format('HH:mm:ss'),
+        finishTime: moment(Date.now()).format('HH:mm:ss'),
+        initialTimer: moment(initialCountdown * 1000).format('mm:ss'),
+        factualTimer: moment(Date.now() - startTime).format('mm:ss')
+      }
+    ])
     setIsStarted(false)
-    setCountdown(0)
+    // setCountdown(0)
     setMinutes(0)
     setSeconds(0)
     setDelay(null)
@@ -70,38 +80,45 @@ const Timer = () => {
     })
   }
 
+  const h = Math.trunc(countdown / 3600)
+  const m = Math.trunc((countdown % 3600) / 60)
+  const s = countdown % 60
+  const formated = `${h ? h + ':' : ''}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
+
   return (
     <div className="timer">
       <h1 className="timer__title">Tаймер</h1>
       <div className="timer__main">
         {isStarted && (
           <div className="timer__count">
-            <h1>
-              {Math.trunc(countdown / 60)}:{countdown % 60}
-            </h1>
+            <h1>{formated}</h1>
           </div>
         )}
         {isStarted && (
-          <ProgressBar
-            progress={(initialCountdown - countdown + 1) / initialCountdown}
-          />
+          <ProgressBar progress={(initialCountdown - countdown + 1) / initialCountdown} />
         )}
         {!isStarted && (
           <div className="timer__input">
-            <input
-              type="text"
-              value={minutes}
-              onChange={e => {
-                setMinutes(parseInt(e.target.value) || 0)
-              }}
-            />
-            <input
-              type="text"
-              value={seconds}
-              onChange={e => {
-                setSeconds(parseInt(e.target.value) || 0)
-              }}
-            />
+            <div className="timer__input-min">
+              <p>Минуты</p>
+              <input
+                type="text"
+                value={minutes}
+                onChange={e => {
+                  setMinutes(parseInt(e.target.value) || 0)
+                }}
+              />
+            </div>
+            <div className="timer__input-sec">
+              <p>Секунды</p>
+              <input
+                type="text"
+                value={seconds}
+                onChange={e => {
+                  setSeconds(parseInt(e.target.value) || 0)
+                }}
+              />
+            </div>
           </div>
         )}
         <div className="timer__action">
@@ -131,8 +148,7 @@ const Timer = () => {
           {isStarted && delay !== null && (
             <div className="timer__statistics-end">
               отсчет заканчится в&nbsp;
-              {startTime &&
-                moment(Date.now() + countdown * 1000).format('HH:mm:ss')}
+              {startTime && moment(Date.now() + countdown * 1000).format('HH:mm:ss')}
             </div>
           )}
         </div>
@@ -146,12 +162,14 @@ const Timer = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>10 : 00</td>
-              <td>10 : 10</td>
-              <td>10 минут 00 секунд</td>
-              <td>10 минут 00 секунд</td>
-            </tr>
+            {stats.map(({ startTime, finishTime, initialTimer, factualTimer }, key) => (
+              <tr key={key}>
+                <td>{startTime}</td>
+                <td>{finishTime}</td>
+                <td>{initialTimer}</td>
+                <td>{factualTimer}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
