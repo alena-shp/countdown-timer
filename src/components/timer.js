@@ -89,11 +89,7 @@ const Timer = () => {
     <div className="timer">
       <h1 className="timer__title">Tаймер</h1>
       <div className="timer__main">
-        {isStarted && (
-          <div className="timer__count">
-            <h1>{formated}</h1>
-          </div>
-        )}
+        {isStarted && <div className="timer__count">{formated}</div>}
         {isStarted && (
           <ProgressBar progress={(initialCountdown - countdown + 1) / initialCountdown} />
         )}

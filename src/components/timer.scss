@@ -15,14 +15,10 @@
     margin-top: 40px;
   }
   &__count {
-    text-align: center;
-    h1 {
-      margin: 0;
-      font-size: 100px;
-      color: #21868d;
-    }
-  }
-  &__startTime {
+    align-items: center;
+    color: #21868d;
+    display: flex;
+    font-size: 100px;
   }
   &__input {
     display: flex;
