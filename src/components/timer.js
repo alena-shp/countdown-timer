@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import * as moment from 'moment'
 import ProgressBar from './ProgressBar'
 import TimerHistory from './TimerHistory'
@@ -43,12 +43,6 @@ const Timer = () => {
     setCountdown((minutes * 60 + seconds) * 1000)
   }, [minutes, seconds])
 
-  useEffect(() => {
-    if (isStarted && countdown < 1) {
-      timerStop()
-    }
-  }, [isStarted, countdown])
-
   const timerStart = () => {
     if (countdown > 0) {
       setInitialCountdown(countdown)
@@ -58,7 +52,7 @@ const Timer = () => {
     }
   }
 
-  const timerStop = () => {
+  const timerStop = useCallback(() => {
     setHistory(history => [
       ...history,
       {
@@ -73,13 +67,19 @@ const Timer = () => {
     setMinutes(0)
     setSeconds(0)
     setDelay(null)
-  }
+  }, [startTime, initialCountdown])
 
   const timerTooglePause = () => {
     setDelay(delay => {
       return delay === null ? 100 : null
     })
   }
+
+  useEffect(() => {
+    if (isStarted && countdown < 1) {
+      timerStop()
+    }
+  }, [isStarted, countdown, timerStop])
 
   const h = Math.trunc(Math.ceil(countdown / 1000) / 3600)
   const m = Math.trunc((Math.ceil(countdown / 1000) % 3600) / 60)
