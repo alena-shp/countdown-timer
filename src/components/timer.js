@@ -134,18 +134,20 @@ const Timer = () => {
             </button>
           )}
         </div>
-        {isStarted && (
-          <div className="timer__statistics">
-            отсчет начался в&nbsp;
-            {startTime && moment(startTime).format('HH:mm:ss')}
-            {delay !== null && (
-              <>
-                &nbsp;и закончится в&nbsp;
-                {startTime && moment(Date.now() + countdown).format('HH:mm:ss')}
-              </>
-            )}
-          </div>
-        )}
+        <div className="timer__statistics">
+          {isStarted && (
+            <>
+              отсчет начался в&nbsp;
+              {startTime && moment(startTime).format('HH:mm:ss')}
+              {delay !== null && (
+                <>
+                  &nbsp;и закончится в&nbsp;
+                  {startTime && moment(Date.now() + countdown).format('HH:mm:ss')}
+                </>
+              )}
+            </>
+          )}
+        </div>
         {history.length > 0 && (
           <table className="timer__table">
             <thead>
