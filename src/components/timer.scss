@@ -5,14 +5,13 @@
   flex-direction: column;
   &__title {
     margin: 0;
-    font-size: 40px;
-    color: #363636;
+    font-size: 60px;
+    color: white;
   }
   &__main {
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 40px;
   }
   &__count {
     align-items: center;
@@ -22,10 +21,9 @@
   }
   &__input {
     display: flex;
-    width: 100%;
     justify-content: center;
     margin-top: 40px;
-    margin-bottom: 50px;
+    width: 100%;
 
     &-min,
     &-sec {
@@ -34,15 +32,15 @@
       align-items: center;
     }
     input {
-      padding: 12px;
-      font-size: 100px;
-      color: #363636;
+      background: transparent;
       border-radius: 4px;
       border: 1px solid #919191;
+      color: #21868d;
+      font-size: 100px;
+      margin: 0 10px;
+      padding: 12px;
+      text-align: center;
       width: 180px;
-    }
-    input:last-child {
-      margin-left: 20px;
     }
   }
 
@@ -53,50 +51,55 @@
     &-pause {
       border-radius: 4px;
       display: inline-block;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: 600;
-      padding: 8px 26px;
+      height: 50px;
+      padding: 0 25px;
       text-transform: uppercase;
       transition: 0.2s;
     }
 
     &-cancel {
-      margin-right: 14px;
-      background-color: white;
+      background-color: transparent;
       border: 2px solid #21868d;
       color: #21868d;
+      margin: 0 7px;
 
       &:hover {
-        color: white;
+        color: #151515;
         background-color: #21868d;
         border: 2px solid #21868d;
       }
     }
     &-start {
-      margin-right: 14px;
-      color: white;
+      color: #151515;
       background-color: #f37954;
       border: 2px solid #f37954;
 
       &:hover {
-        background-color: white;
+        background-color: transparent;
         border: 2px solid #f37954;
         color: #f37954;
       }
     }
     &-pause {
-      color: white;
+      color: #151515;
       background-color: #21868d;
       border: 2px solid #21868d;
+      margin: 0 7px;
 
       &:hover {
-        background-color: white;
+        background-color: transparent;
         border: 2px solid #21868d;
         color: #21868d;
       }
     }
   }
+
   &__statistics {
+    margin-bottom: 20px;
+    font-size: 18px;
+    line-height: 24px;
   }
 
   &__table {

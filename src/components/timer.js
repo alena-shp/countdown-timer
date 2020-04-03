@@ -148,26 +148,28 @@ const Timer = () => {
             </div>
           )}
         </div>
-        <table className="timer__table">
-          <thead>
-            <tr>
-              <th>Начало</th>
-              <th>Окончание</th>
-              <th>Установленное время</th>
-              <th>Фактическое время</th>
-            </tr>
-          </thead>
-          <tbody>
-            {history.map(({ startTime, finishTime, initialTimer, factualTimer }, key) => (
-              <tr key={key}>
-                <td>{startTime}</td>
-                <td>{finishTime}</td>
-                <td>{initialTimer}</td>
-                <td>{factualTimer}</td>
+        {history.length > 0 && (
+          <table className="timer__table">
+            <thead>
+              <tr>
+                <th>Начало</th>
+                <th>Окончание</th>
+                <th>Установленное время</th>
+                <th>Фактическое время</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {history.map(({ startTime, finishTime, initialTimer, factualTimer }, key) => (
+                <tr key={key}>
+                  <td>{startTime}</td>
+                  <td>{finishTime}</td>
+                  <td>{initialTimer}</td>
+                  <td>{factualTimer}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   )
