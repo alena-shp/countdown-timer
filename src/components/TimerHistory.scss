@@ -1,0 +1,26 @@
+.timer__table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: center;
+
+  thead,
+  tbody {
+    width: 100%;
+  }
+  thead {
+    border-top: 1px solid #21868d;
+    border-bottom: 1px solid #21868d;
+  }
+  tr {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  th,
+  td {
+    width: 20%;
+    padding: 10px 20px;
+    text-align: center;
+  }
+}

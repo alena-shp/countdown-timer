@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as moment from 'moment'
 import ProgressBar from './ProgressBar'
+import TimerHistory from './TimerHistory'
 import './Timer.scss'
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
@@ -148,28 +149,7 @@ const Timer = () => {
             </>
           )}
         </div>
-        {history.length > 0 && (
-          <table className="timer__table">
-            <thead>
-              <tr>
-                <th>Начало</th>
-                <th>Окончание</th>
-                <th>Установленное время</th>
-                <th>Фактическое время</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map(({ startTime, finishTime, initialTimer, factualTimer }, key) => (
-                <tr key={key}>
-                  <td>{startTime}</td>
-                  <td>{finishTime}</td>
-                  <td>{initialTimer}</td>
-                  <td>{factualTimer}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        <TimerHistory history={history} />
       </div>
     </div>
   )
