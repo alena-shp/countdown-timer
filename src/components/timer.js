@@ -35,11 +35,11 @@ const Timer = () => {
   const [history, setHistory] = useState([])
 
   useInterval(() => {
-    setCountdown(countdown - 1)
+    setCountdown(countdown - 100)
   }, delay)
 
   useEffect(() => {
-    setCountdown(minutes * 60 + seconds)
+    setCountdown((minutes * 60 + seconds) * 1000)
   }, [minutes, seconds])
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Timer = () => {
       setInitialCountdown(countdown)
       setIsStarted(true)
       setStartTime(Date.now())
-      setDelay(1000)
+      setDelay(100)
     }
   }
 
@@ -63,7 +63,7 @@ const Timer = () => {
       {
         startTime: moment(startTime).format('HH:mm:ss'),
         finishTime: moment(Date.now()).format('HH:mm:ss'),
-        initialTimer: moment(initialCountdown * 1000).format('mm:ss'),
+        initialTimer: moment(initialCountdown).format('mm:ss'),
         factualTimer: moment(Date.now() - startTime).format('mm:ss')
       }
     ])
@@ -76,13 +76,13 @@ const Timer = () => {
 
   const timerTooglePause = () => {
     setDelay(delay => {
-      return delay === null ? 1000 : null
+      return delay === null ? 100 : null
     })
   }
 
-  const h = Math.trunc(countdown / 3600)
-  const m = Math.trunc((countdown % 3600) / 60)
-  const s = countdown % 60
+  const h = Math.trunc(Math.ceil(countdown / 1000) / 3600)
+  const m = Math.trunc((Math.ceil(countdown / 1000) % 3600) / 60)
+  const s = Math.ceil(Math.ceil(countdown / 1000) % 60)
   const formated = `${h ? h + ':' : ''}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`
 
   return (
@@ -91,7 +91,7 @@ const Timer = () => {
       <div className="timer__main">
         {isStarted && <div className="timer__count">{formated}</div>}
         {isStarted && (
-          <ProgressBar progress={(initialCountdown - countdown + 1) / initialCountdown} />
+          <ProgressBar progress={(initialCountdown - countdown) / (initialCountdown - 100)} />
         )}
         {!isStarted && (
           <div className="timer__input">
@@ -134,20 +134,18 @@ const Timer = () => {
             </button>
           )}
         </div>
-        <div className="timer__statistics">
-          {isStarted && (
-            <div className="timer__statistics-start">
-              отсчет начался в&nbsp;
-              {startTime && moment(startTime).format('HH:mm:ss')}
-            </div>
-          )}
-          {isStarted && delay !== null && (
-            <div className="timer__statistics-end">
-              отсчет заканчится в&nbsp;
-              {startTime && moment(Date.now() + countdown * 1000).format('HH:mm:ss')}
-            </div>
-          )}
-        </div>
+        {isStarted && (
+          <div className="timer__statistics">
+            отсчет начался в&nbsp;
+            {startTime && moment(startTime).format('HH:mm:ss')}
+            {delay !== null && (
+              <>
+                &nbsp;и закончится в&nbsp;
+                {startTime && moment(Date.now() + countdown).format('HH:mm:ss')}
+              </>
+            )}
+          </div>
+        )}
         {history.length > 0 && (
           <table className="timer__table">
             <thead>
