@@ -33,10 +33,12 @@ const Timer = () => {
   const [delay, setDelay] = useState(null)
   const [isStarted, setIsStarted] = useState(false)
   const [startTime, setStartTime] = useState(undefined)
+  const [updatedStartTime, setUpdatedStartTime] = useState(undefined)
+  const [pauseTime, setPauseTime] = useState(0)
   const [history, setHistory] = useState([])
 
   useInterval(() => {
-    setCountdown(countdown - 100)
+    setCountdown(initialCountdown - (Date.now() - updatedStartTime))
   }, delay)
 
   useEffect(() => {
@@ -45,9 +47,11 @@ const Timer = () => {
 
   const timerStart = () => {
     if (countdown > 0) {
+      const nowTime = Date.now()
       setInitialCountdown(countdown)
       setIsStarted(true)
-      setStartTime(Date.now())
+      setStartTime(nowTime)
+      setUpdatedStartTime(nowTime)
       setDelay(100)
     }
   }
@@ -71,7 +75,13 @@ const Timer = () => {
 
   const timerTooglePause = () => {
     setDelay(delay => {
-      return delay === null ? 100 : null
+      if (delay) {
+        setPauseTime(Date.now())
+        return null
+      } else {
+        setUpdatedStartTime(updatedStartTime => updatedStartTime + (Date.now() - pauseTime))
+        return 100
+      }
     })
   }
 
